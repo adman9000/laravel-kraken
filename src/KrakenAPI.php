@@ -32,4 +32,8 @@ class KrakenAPI {
 	function displayConfig() {
 		var_dump($this->params);
 	}
+	
+	function test() {
+		echo "OK";
+	}
 }
