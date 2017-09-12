@@ -16,12 +16,12 @@ class KrakenServiceProvider extends ServiceProvider {
 
 	public function register() 
 	{
-		$this->app->bind('kraken', function($app) {
-			return new KrakenAPI($app);
+		$this->mergeConfigFrom(__DIR__.'/config/kraken.php', 'kraken');
+		$this->app->bind('kraken', function() {
+			return new KrakenAPI(config('kraken'));
 		});
 
-		$this->mergeConfigFrom(
-			__DIR__.'/config/kraken.php', 'kraken');
+		
 
 	} // register
 }

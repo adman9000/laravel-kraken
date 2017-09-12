@@ -1,89 +1,46 @@
 <?php 
 namespace adman9000\kraken;
 
-class KrakenAPI {
+class KrakenAPI
+{
+    protected $key;     // API key
+    protected $secret;  // API secret
+    protected $url;     // API base URL
+    protected $version; // API version
+    protected $curl;    // curl handle
+
     /**
-     * API Parameters
-     * @var array
+     * Constructor for KrakenAPI
+     *
+     * @param string $key API key
+     * @param string $secret API secret
+     * @param string $url base URL for Kraken API
+     * @param string $version API version
+     * @param bool $sslverify enable/disable SSL peer verification.  disable if using beta.api.kraken.com
      */
-    protected $params = array();
-	
-	protected $curl;
-	protected $url;
-	protected $version;
-	
-    /**
-     * API Url String
-     * @var string
-     */
-    protected $urlString = null;
-    /**
-     * @var string
-     */
-    protected $response;
- 
-    /**
-     * Constructor
-     */
-    public function __construct() 
+    function __construct($config, $url='https://api.kraken.com', $version='0', $sslverify=true)
     {
-       $this->params = [
-                'key' => config('kraken.kraken_key'),
-                'secret' => config('kraken.kraken_secret'),
-                'responseType' => 'JSON'
-                ];
-				
-		
-		$this->curl = curl_init();
+        $this->key = $config['kraken_key'];
+        $this->secret = $config['kraken_secret'];
+        $this->url = $url;
+        $this->version = $version;
+        $this->curl = curl_init();
+
         curl_setopt_array($this->curl, array(
-                CURLOPT_SSL_VERIFYPEER => true,
-                CURLOPT_SSL_VERIFYHOST => 2,
-                CURLOPT_USERAGENT => 'Kraken PHP API Agent',
-                CURLOPT_POST => true,
-                CURLOPT_RETURNTRANSFER => true)
+            CURLOPT_SSL_VERIFYPEER => $sslverify,
+            CURLOPT_SSL_VERIFYHOST => 2,
+            CURLOPT_USERAGENT => 'Kraken PHP API Agent',
+            CURLOPT_POST => true,
+            CURLOPT_RETURNTRANSFER => true)
         );
-		
-		$this->url = "https://api.kraken.com";
-		$this->version = 0;
     }
-	
-	/**
-     * Get asset info
-     *
-     * @return array of asset names and their info
-     */
-    public function getAssetInfo()
+
+    function __destruct()
     {
-        return $this->queryPublic('Assets');
+        curl_close($this->curl);
     }
-	
-	 /**
-     * Get tradable asset pairs
-     *
-     * @return array of pair names and their info
-     */
-    public function getAssetPairs(array $pairs=null, $info='info')
-    {
-        $csv = empty($pairs) ? null : implode(',', $pairs);
-        return $this->queryPublic('AssetPairs', array(
-            'pair' => "XBTEUR"
-        ));
-    }
-	
-	 /**
-     * Get ticker
-     *
-     * @return array of pair names and their info
-     */
-    public function getTicker(array $pairs=null, $info='info')
-    {
-        $code = implode('', $pairs);
-        return $this->queryPublic('Ticker', array(
-            'pair' => $code
-        ));
-    }
-	
-	    /**
+	   
+     /**
      * Query public methods
      *
      * @param string $method method name
@@ -108,8 +65,8 @@ class KrakenAPI {
             throw new \Exception('JSON decode error');
         return $result;
     }
-	
-	   /**
+    
+       /**
      * Query private methods
      *
      * @param string $path method path
@@ -152,4 +109,129 @@ class KrakenAPI {
 
         return $result;
     }
+
+
+
+
+	/**
+     * Get asset info
+     *
+     * @return array of asset names and their info
+     */
+    public function getAssetInfo()
+    {
+        return $this->queryPublic('Assets');
+    }
+	
+	 /**
+     * Get tradable asset pairs
+     *
+     * @return array of pair names and their info
+     */
+    public function getAssetPairs(array $pairs=null, $info='info')
+    {
+        $code = implode('', $pairs);
+        return $this->queryPublic('AssetPairs', array(
+            'pair' => $code
+        ));
+    }
+	
+
+
+	 /**
+     * Get ticker
+     *
+     * @return asset pair ticker info
+     */
+    public function getTicker(array $pair=null, $info='info')
+    {
+        $code = implode('', $pair);
+        return $this->queryPublic('Ticker', array(
+            'pair' => $code
+        ));
+    }
+
+     /**
+     * Get tickers
+     *
+     * @param array $pairs
+     * @return array of ticker info by pair codes
+     */
+    public function getTickers(array $pairs)
+    {
+        $codes = implode(',', $pairs);
+        return $this->public('Ticker', [
+            'pair' => $codes
+        ]);
+    }
+
+
+
+    /** Private Functions **/
+
+   /** Get Balances
+     * 
+     * @return array of asset balances by code
+    **/
+    public function getBalances() {
+
+        return $this->queryPrivate("Balance");
+    }
+
+
+    /** Add Order
+     * pair = asset pair
+     * @param  type = type of order (buy/sell)
+     * @param    ordertype = order type:
+                market
+                limit (price = limit price)
+                stop-loss (price = stop loss price)
+                take-profit (price = take profit price)
+                stop-loss-profit (price = stop loss price, price2 = take profit price)
+                stop-loss-profit-limit (price = stop loss price, price2 = take profit price)
+                stop-loss-limit (price = stop loss trigger price, price2 = triggered limit price)
+                take-profit-limit (price = take profit trigger price, price2 = triggered limit price)
+                trailing-stop (price = trailing stop offset)
+                trailing-stop-limit (price = trailing stop offset, price2 = triggered limit offset)
+                stop-loss-and-limit (price = stop loss price, price2 = limit price)
+                settle-position
+      * @param   price = price (optional.  dependent upon ordertype)
+      * @param   price2 = secondary price (optional.  dependent upon ordertype)
+      * @param   volume = order volume in lots
+      **/
+
+        public function addOrder($pair, $type, $ordertype, $price=false, $price2=false, $volume) {
+
+            $code = implode('', $pair);
+            return $this->queryPrivate('AddOrder', array(
+                'pair' => $code,
+                'type' => $type,
+                'ordertype' => $ordertype,
+                'price' => $price,
+                'price2' => $price2,
+                'volume' => $volume
+            ));
+        }
+
+
+        /** Buy Market
+         * Buy asset at the market price
+         * @param asset pair
+         * @param volume
+         * @return order info
+         **/
+        public function buyMarket($pair, $volume) {
+            return $this->addOrder($pair, 'buy', 'market', false, false, $volume);
+        }
+
+        /** Sell Market
+         * Sell asset at the market price
+         * @param asset pair
+         * @param volume
+         * @return order info
+         **/
+
+         public function sellMarket($pair, $volume) {
+            return $this->addOrder($pair, 'sell', 'market', false, false, $volume);
+        }
 }
