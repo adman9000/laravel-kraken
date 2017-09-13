@@ -160,7 +160,7 @@ class KrakenAPI
     public function getTickers(array $pairs)
     {
         $codes = implode(',', $pairs);
-        return $this->public('Ticker', [
+        return $this->queryPublic('Ticker', [
             'pair' => $codes
         ]);
     }
