@@ -18,10 +18,12 @@ class KrakenAPI
      * @param string $version API version
      * @param bool $sslverify enable/disable SSL peer verification.  disable if using beta.api.kraken.com
      */
-    function __construct($config, $url='https://api.kraken.com', $version='0', $sslverify=true)
+    function __construct($config=false, $url='https://api.kraken.com', $version='0', $sslverify=true)
     {
+        if($config) {
         $this->key = $config['kraken_key'];
         $this->secret = $config['kraken_secret'];
+    }
         $this->url = $url;
         $this->version = $version;
         $this->curl = curl_init();
@@ -38,6 +40,12 @@ class KrakenAPI
     function __destruct()
     {
         curl_close($this->curl);
+    }
+
+    function setAPI($key, $secret) {
+
+       $this->key = $key;
+       $this->secret = $secret;
     }
 	   
      /**
@@ -100,12 +108,12 @@ class KrakenAPI
         curl_setopt($this->curl, CURLOPT_HTTPHEADER, $headers);
         $result = curl_exec($this->curl);
         if($result===false)
-            throw new KrakenAPIException('CURL error: ' . curl_error($this->curl));
+            throw new \Exception('CURL error: ' . curl_error($this->curl));
 
         // decode results
         $result = json_decode($result, true);
         if(!is_array($result))
-            throw new KrakenAPIException('JSON decode error');
+            throw new \Exception('JSON decode error');
 
         return $result;
     }
@@ -130,10 +138,15 @@ class KrakenAPI
      */
     public function getAssetPairs(array $pairs=null, $info='info')
     {
-        $code = implode('', $pairs);
-        return $this->queryPublic('AssetPairs', array(
-            'pair' => $code
+        if(is_array($pairs)) $code = implode('', $pairs);
+        if(isset($code)) {
+            return $this->queryPublic('AssetPairs', array(
+                'pair' => $code
         ));
+    }
+    else {
+        return $this->queryPublic('AssetPairs');
+        }
     }
 	
 
@@ -143,9 +156,9 @@ class KrakenAPI
      *
      * @return asset pair ticker info
      */
-    public function getTicker(array $pair=null, $info='info')
+    public function getTicker(array $markets)
     {
-        $code = implode('', $pair);
+        $code = implode(',', $markets);
         return $this->queryPublic('Ticker', array(
             'pair' => $code
         ));
