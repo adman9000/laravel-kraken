@@ -191,9 +191,44 @@ class KrakenAPI
         return $this->queryPrivate("Balance");
     }
 
+    /**
+     * Get trades 
+     *
+     * @return mixed
+     * @throws \Exception
+     */
+    public function getRecentTrades()
+    {
 
-    /** Add Order
-     * pair = asset pair
+
+        $b = $this->queryPrivate('TradesHistory');
+        return $b;
+
+    }
+
+    public function getOpenOrders()
+    {
+
+
+        $b = $this->queryPrivate('OpenOrders');
+
+        return $b;
+
+    }
+
+    public function getClosedOrders()
+    {
+
+
+        $b = $this->queryPrivate('ClosedOrders');
+        return $b;
+
+    }
+
+
+    /** 
+     * Add Order
+     * 
      * @param  type = type of order (buy/sell)
      * @param    ordertype = order type:
                 market
