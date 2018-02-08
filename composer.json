@@ -1,5 +1,5 @@
 {
-    "name": "adman9000/laravelkraken",
+    "name": "adman9000/laravel-kraken",
     "description": "Kraken.com Trading API integration for Laravel",
     "type": "library",
     "license": "MIT",
