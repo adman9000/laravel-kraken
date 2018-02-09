@@ -33,7 +33,9 @@ class KrakenAPI
             CURLOPT_SSL_VERIFYHOST => 2,
             CURLOPT_USERAGENT => 'Kraken PHP API Agent',
             CURLOPT_POST => true,
-            CURLOPT_RETURNTRANSFER => true)
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CONNECTTIMEOUT => 20,
+            CURLOPT_TIMEOUT => 300)
         );
     }
 
