@@ -49,7 +49,7 @@ class KrakenAPI
        $this->key = $key;
        $this->secret = $secret;
     }
-	   
+       
    
 
     /**
@@ -95,7 +95,7 @@ class KrakenAPI
     }
 
 
-	/**
+    /**
      * Get asset info
      *
      * @return array of asset names and their info
@@ -113,8 +113,8 @@ class KrakenAPI
     public function getCurrencies() {
         return $this->getAssetInfo();
     }
-	
-	 /**
+    
+     /**
      * Get tradable asset pairs
      *
      * @return array of pair names and their info
@@ -141,7 +141,7 @@ class KrakenAPI
     {
         return $this->getAssetPairs();
     }
-	
+    
 
 
     //------ PRIVATE API CALLS ----------
@@ -157,6 +157,7 @@ class KrakenAPI
     * marketBuy
     * limitSell
     * limitBuy
+    * depositAddress
     */
 
    /** Get Balances
@@ -286,6 +287,23 @@ class KrakenAPI
 
          public function sellMarket($pair, $volume) {
             return $this->addOrder($pair, 'sell', 'market', false, false, $volume);
+        }
+
+
+        /**
+         * Deposit Address
+         * @param string $symbol   Asset symbol
+         * @param string $method   Asset name?? If not set, find a method from the API
+         * @return mixed
+         **/
+        public function depositAddress($symbol, $method=false) {
+
+            if(!$method) {
+                $result = $this->queryPrivate("DepositMethods", ['asset' => $symbol]);
+                $method = $result['result'][0]['method'];
+            }
+            return $this->queryPrivate("DepositAddresses", ['asset' => $symbol, 'method' => $method]);
+            
         }
 
 
