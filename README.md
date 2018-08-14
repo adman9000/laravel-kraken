@@ -8,7 +8,7 @@ This is a fork from adman9000
 #### Install via Composer
 
 ```
-composer require decode9/laravelkraken
+composer require decode9/laravel-kraken
 ```
 
 Add the following lines to your `config/app.php`
