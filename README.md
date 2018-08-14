@@ -1,4 +1,4 @@
-# laravelkraken
+# laravel-kraken
 Kraken trading API for Laravel
 
 This is a fork from adman9000
