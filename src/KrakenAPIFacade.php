@@ -1,4 +1,6 @@
-<?php namespace adman9000\kraken;
+<?php
+
+namespace decode9\kraken;
 
 use Illuminate\Support\Facades\Facade;
 

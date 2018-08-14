@@ -1,5 +1,5 @@
 {
-    "name": "adman9000/laravel-kraken",
+    "name": "decode9/laravel-kraken",
     "description": "Kraken.com Trading API integration for Laravel",
     "type": "library",
     "license": "MIT",
@@ -15,7 +15,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"adman9000\\kraken\\": "src/"
+			"decode9\\kraken\\": "src/"
 		}
 	}
 }
