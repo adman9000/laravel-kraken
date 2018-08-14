@@ -29,4 +29,4 @@ Add the following lines to your `config/app.php`
 
 ## Version
 
-0.0000000000000000001!
+0.1.1!
