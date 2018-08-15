@@ -1,12 +1,14 @@
-# laravelkraken
+# laravel-kraken
 Kraken trading API for Laravel
+
+This is a fork from adman9000
 
 ## Install
 
 #### Install via Composer
 
 ```
-composer require adman9000/laravelkraken
+composer require decode9/laravel-kraken
 ```
 
 Add the following lines to your `config/app.php`
@@ -14,17 +16,17 @@ Add the following lines to your `config/app.php`
 ```php
 'providers' => [
         ...
-        adman9000\kraken\KrakenServiceProvider::class,
+        decode9\kraken\KrakenServiceProvider::class,
         ...
     ],
 
 
  'aliases' => [
         ...
-        'Kraken' => adman9000\kraken\KrakenAPIFacade::class,
+        'Kraken' => decode9\kraken\KrakenAPIFacade::class,
     ],
 ```
 
 ## Version
 
-0.0000000000000000001!
+0.1.1!
