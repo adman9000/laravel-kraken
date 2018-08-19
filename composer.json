@@ -21,7 +21,7 @@
   "extra": {
     "laravel": {
         "providers": [
-            "adman9000\\kraken\\KrakenAPIServiceProvider"
+            "adman9000\\kraken\\KrakenServiceProvider"
         ],
         "aliases": {
             "KrakenAPI": "adman9000\\kraken\\KrakenAPIFacade"
