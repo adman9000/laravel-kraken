@@ -1,5 +1,5 @@
 # laravel-kraken
-Kraken trading API for Laravel
+Laravel implementation of the Kraken crypto exchange trading API
 
 ## Install
 
