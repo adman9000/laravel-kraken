@@ -17,5 +17,15 @@
 		"psr-4": {
 			"adman9000\\kraken\\": "src/"
 		}
-	}
+	},
+  "extra": {
+    "laravel": {
+        "providers": [
+            "adman9000\\kraken\\KrakenAPIServiceProvider"
+        ],
+        "aliases": {
+            "KrakenAPI": "adman9000\\kraken\\KrakenAPIFacade"
+        }
+    }
+    }
 }

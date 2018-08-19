@@ -9,7 +9,7 @@ Kraken trading API for Laravel
 composer require adman9000/laravel-kraken
 ```
 
-Add the following lines to your `config/app.php`
+Utilises autoloading in Laravel 5.5+. For older versions add the following lines to your `config/app.php`
 
 ```php
 'providers' => [
@@ -25,10 +25,10 @@ Add the following lines to your `config/app.php`
     ],
 ```
 
-## Version
-
-0.1
-
 ## Features
 
 Price tickers, balances, trades, deposits and withdrawals
+
+## Notes
+
+Kraken API is quite unreliable. If the endpoint is down it returns a json encode error, retrying will sometimes work.
