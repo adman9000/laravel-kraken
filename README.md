@@ -29,6 +29,6 @@ Add the following lines to your `config/app.php`
 
 0.1
 
-##Features
+## Features
 
 Price tickers, balances, trades, deposits and withdrawals
