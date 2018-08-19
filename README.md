@@ -1,4 +1,4 @@
-# laravelkraken
+# laravel-kraken
 Kraken trading API for Laravel
 
 ## Install
@@ -6,7 +6,7 @@ Kraken trading API for Laravel
 #### Install via Composer
 
 ```
-composer require adman9000/laravelkraken
+composer require adman9000/laravel-kraken
 ```
 
 Add the following lines to your `config/app.php`
@@ -27,4 +27,8 @@ Add the following lines to your `config/app.php`
 
 ## Version
 
-0.0000000000000000001!
+0.1
+
+##Features
+
+Price tickers, balances, trades, deposits and withdrawals

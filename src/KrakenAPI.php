@@ -33,9 +33,7 @@ class KrakenAPI
             CURLOPT_SSL_VERIFYHOST => 2,
             CURLOPT_USERAGENT => 'Kraken PHP API Agent',
             CURLOPT_POST => true,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_CONNECTTIMEOUT => 20,
-            CURLOPT_TIMEOUT => 300)
+            CURLOPT_RETURNTRANSFER => true)
         );
     }
 
@@ -49,7 +47,7 @@ class KrakenAPI
        $this->key = $key;
        $this->secret = $secret;
     }
-       
+	   
    
 
     /**
@@ -95,7 +93,7 @@ class KrakenAPI
     }
 
 
-    /**
+	/**
      * Get asset info
      *
      * @return array of asset names and their info
@@ -113,8 +111,8 @@ class KrakenAPI
     public function getCurrencies() {
         return $this->getAssetInfo();
     }
-    
-     /**
+	
+	 /**
      * Get tradable asset pairs
      *
      * @return array of pair names and their info
@@ -141,7 +139,7 @@ class KrakenAPI
     {
         return $this->getAssetPairs();
     }
-    
+	
 
 
     //------ PRIVATE API CALLS ----------
@@ -157,7 +155,6 @@ class KrakenAPI
     * marketBuy
     * limitSell
     * limitBuy
-    * depositAddress
     */
 
    /** Get Balances
@@ -290,23 +287,63 @@ class KrakenAPI
         }
 
 
-        /**
-         * Deposit Address
-         * @param string $symbol   Asset symbol
-         * @param string $method   Asset name?? If not set, find a method from the API
-         * @return mixed
-         **/
-        public function depositAddress($symbol, $method=false) {
-
-            if(!$method) {
-                $result = $this->queryPrivate("DepositMethods", ['asset' => $symbol]);
-                $method = $result['result'][0]['method'];
-            }
-            return $this->queryPrivate("DepositAddresses", ['asset' => $symbol, 'method' => $method]);
-            
-        }
-
-
+/**
+       * Deposit Address
+       * @param string $symbol   Asset symbol
+       * @param string $method   Asset name?? If not set, find a method from the API
+       * @return mixed
+       **/
+      public function depositAddress($symbol, $method=false) {
+          if(!$method) {
+              $result = $this->queryPrivate("DepositMethods", ['asset' => $symbol]);
+              $method = $result['result'][0]['method'];
+          }
+          return $this->queryPrivate("DepositAddresses", ['asset' => $symbol, 'method' => $method]);
+       }
+      /**
+       * View Deposits
+       * @param string $symbol   Asset symbol
+       * @param string $method   Asset name?? If not set, find a method from the API
+       * @return mixed
+       **/
+      public function viewDeposits($symbol, $method=false) {
+          if(!$method) {
+              $result = $this->queryPrivate("DepositMethods", ['asset' => $symbol]);
+              $method = $result['result'][0]['method'];
+          }
+          return $this->queryPrivate("DepositStatus", ['asset' => $symbol, 'method' => $method]);
+       }
+       /**
+       * Withdraw Info
+       * @param string $symbol   Asset symbol
+       * @param string $method   Asset name?? If not set, find a method from the API
+       * @return mixed
+       **/
+      public function WithdrawInfo($symbol, $key, $amount=0) {
+         return $this->queryPrivate("WithdrawInfo", ['asset' => $symbol, 'key' => $key, 'amount' => $amount]);
+       }
+       /**
+       * Withdraw Funds
+       * @param string $symbol   Asset symbol
+       * @param string $method   Asset name?? If not set, find a method from the API
+       * @return mixed
+       **/
+      public function WithdrawFunds($symbol, $key, $amount) {
+         return $this->queryPrivate("Withdraw", ['asset' => $symbol, 'key' => $key, 'amount' => $amount]);
+       }
+      /**
+       * View Deposits
+       * @param string $symbol   Asset symbol
+       * @param string $method   Asset name?? If not set, find a method from the API
+       * @return mixed
+       **/
+       public function viewWithdraw($symbol, $key, $method=false) {
+           if(!$method) {
+              $result = $this->WithdrawInfo($symbol, $key);
+              $method = $result['result']['method'];
+          }
+          return $this->queryPrivate("WithdrawStatus", ['asset' => $symbol, 'method' => $method]);
+       }
 
           /**
      * Query public methods
