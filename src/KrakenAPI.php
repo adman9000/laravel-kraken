@@ -345,6 +345,20 @@ class KrakenAPI
           return $this->queryPrivate("WithdrawStatus", ['asset' => $symbol, 'method' => $method]);
        }
 
+       //To match other APIs
+       public function withdrawalHistory($symbol, $key, $method=false) {
+            return $this->viewWithdraw($symbol, $key, $method);
+       }
+
+        /**
+        * Deposit History
+        * @param string $symbol   Asset symbol
+        * @return mixed
+        **/
+        public function depositHistory($symbol=false) {
+            return $this->queryPrivate("DepositStatus", ['asset' => $symbol]);
+        }
+
           /**
      * Query public methods
      *
