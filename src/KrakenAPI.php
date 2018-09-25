@@ -226,7 +226,6 @@ class KrakenAPI {
     * @param   volume = order volume in lots
     **/
       public function addOrder($pair, $type, $ordertype, $volume, $price=false, $price2=false) {
-          $code = implode('', $pair);
           return $this->queryPrivate('AddOrder', array(
               'pair' => $code,
               'type' => $type,
