@@ -227,7 +227,7 @@ class KrakenAPI {
     **/
       public function addOrder($pair, $type, $ordertype, $volume, $price=false, $price2=false) {
           return $this->queryPrivate('AddOrder', array(
-              'pair' => $code,
+              'pair' => $pair,
               'type' => $type,
               'ordertype' => $ordertype,
               'price' => $price,
@@ -249,7 +249,7 @@ class KrakenAPI {
        * @return order info
        **/
       public function buyMarket($pair, $volume) {
-          return $this->addOrder($pair, 'buy', 'market', false, false, $volume);
+          return $this->addOrder($pair, 'buy', 'market', $volume, false, false);
       }
       /** Sell Market
        * Sell asset at the market price
@@ -258,7 +258,7 @@ class KrakenAPI {
        * @return order info
        **/
        public function sellMarket($pair, $volume) {
-          return $this->addOrder($pair, 'sell', 'market', false, false, $volume);
+          return $this->addOrder($pair, 'sell', 'market', $volume, false, false);
       }
 
       /**
