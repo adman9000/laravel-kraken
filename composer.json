@@ -5,8 +5,12 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Adam Harding",
-            "email": "adam@diligencegroup.co.uk"
+            "name": "Jorge Bastidas",
+            "email": "jorgebastidas9@gmail.com"
+        },
+        {
+            "name": "Victor Caceres",
+            "email": "caceres.vc95@gmail.com"
         }
     ],
     "minimum-stability": "dev",
