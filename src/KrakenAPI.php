@@ -332,6 +332,7 @@ class KrakenAPI
     {
         // build the POST data string
         $postdata = http_build_query($request, '', '&');
+
         // make request
         curl_setopt($this->curl, CURLOPT_URL, $this->url . '/' . $this->version . '/public/' . $method);
         curl_setopt($this->curl, CURLOPT_POSTFIELDS, $postdata);
