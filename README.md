@@ -1,4 +1,12 @@
 # laravel-kraken
+
+> **This package is abandoned and no longer maintained.**
+> It has not been updated since August 2018 and is incompatible with modern PHP and Laravel versions.
+>
+> **Recommended alternatives:**
+> - [`butschster/kraken-api-client`](https://packagist.org/packages/butschster/kraken-api-client) — actively maintained Laravel integration with REST and WebSocket support (PHP 8.1+, Laravel 8–11)
+> - [`payward/kraken-api-client`](https://packagist.org/packages/payward/kraken-api-client) — the official Kraken PHP client library
+
 Laravel implementation of the Kraken crypto exchange trading API
 
 ## Install
